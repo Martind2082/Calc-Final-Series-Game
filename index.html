@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LeBron Shoots!</title>
+  <title>Legrange James</title>
   <style>
     body {
       margin: 0;
@@ -191,6 +191,19 @@
     button:hover {
       cursor: pointer;
     }
+    .nonlaptop {
+      position: absolute;
+      left: 0rem;
+      top: 0rem;
+      width: 100vw;
+      height: 100vh;
+      background: white;
+      z-index: 10;
+      font-size: bold;
+      text-align: center;
+      font-size: 2rem;
+      padding-top: 2rem;
+    }
   </style>
 </head>
 <body>
@@ -225,6 +238,22 @@
     const seriesimage = document.getElementById('seriesimage');
     const scoreboardinside = document.getElementById('scoreboardinside');
     const lebronimg = document.getElementById('lebron');
+
+    function islaptop() {
+      const width = window.screen.width;
+      const height = window.screen.height;
+
+      if (width < 1024) {
+        //not a laptop
+        let div = document.createElement("div");
+        div.classList.add('nonlaptop');
+        div.textContent = "Mobile devices aren't supported. Please use a laptop for a better experience"
+        document.body.append(div);
+        document.body.style = "overflow: hidden; width: 100vw; height: 100vh;"
+      }
+    }
+    islaptop();
+
 
     let convergestate = "";
 
@@ -266,7 +295,7 @@
         const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
         const sliderRem = sliderLeftPx / rootFontSize;
         console.log(`Slider is at ${sliderRem.toFixed(2)} rem`);
-document.getElementById('lebronaudio').play();
+        document.getElementById('lebronaudio').play();
         if (sliderRem.toFixed(2) > 36 && sliderRem.toFixed(2) < 50) {
           if (convergestate == "diverge") {
             let score = scoreboardinside.textContent;
