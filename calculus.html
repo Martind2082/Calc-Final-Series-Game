@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LeBron Shoots!</title>
+  <style>
+    body {
+      margin: 0;
+      background: #87ceeb; /* sky blue */
+      overflow: hidden;
+      position: relative;
+      height: 100vh;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif 
+    }
+
+    #court {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    #lebron {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 15rem;
+      z-index: 2;
+    }
+
+    #hoop1, #hoop2 {
+      position: absolute;
+      bottom: 30rem;
+      width: 140px;
+      z-index: 1;
+    }
+    /* converge */
+    #hoop1 {
+      left: 55rem;
+      top: 8rem;
+      width: 10rem;
+      height: 12rem;
+    }
+
+    /* diverge */
+    #hoop2 {
+      left: 35rem;
+      top: 8rem;
+      width: 10rem;
+      height: 12rem;
+    }
+
+    #ball {
+      position: absolute;
+      width: 50px;
+      bottom: 0;
+      left: 0;
+      display: none;
+      z-index: 3;
+      /* animation: shootleft 1s linear; */
+    }
+    .shootleft {
+      animation: shootleft 1s linear;
+    }
+    .shootright {
+      animation: shootright 1s linear;
+    }
+     @keyframes shootleft {
+      0% {
+        transform: translate(0rem, 0rem);
+      }
+      75% {
+        transform: translate(30rem, -50rem);
+      }
+      100% {
+        transform: translate(40rem, -30rem);
+      }
+    }
+
+     @keyframes shootright {
+      0% {
+        transform: translate(0rem, 0rem);
+      }
+      75% {
+        transform: translate(40rem, -50rem)
+      }
+      100% {
+        transform: translate(60rem, -30rem)
+      }
+    }
+
+    /* Bottom red bar with green zones */
+    #target-bar {
+      position: absolute;
+      bottom: 110px;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background-color: red;
+      z-index: 1;
+    }
+
+    .green-zone {
+      position: absolute;
+      bottom: 110px;
+      width: 140px;
+      height: 40px;
+      background-color: green;
+      z-index: 2;
+    }
+
+    #green1 {
+      left: 58rem;
+    }
+
+    #green2 {
+      left: 38rem;
+    }
+
+    /* Sliding indicator */
+    #slider {
+      position: absolute;
+      bottom: 110px;
+      width: 20px;
+      height: 40px;
+      background-color: yellow;
+      animation: slide 1s linear infinite alternate;
+      z-index: 3;
+    }
+
+    @keyframes slide {
+      0% {
+        left: 0;
+      }
+      100% {
+        left: calc(100% - 20px);
+      }
+    }
+
+    .shoot {
+      animation: shoot 1s linear;
+    }
+    
+    .airball {
+      position: absolute;
+      font-size: 10rem;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    #description {
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: center;
+    }
+    #seriesimage {
+      margin-left: 3rem;
+    }
+    #scoreboardoutside {
+      background: lightcoral;
+      font-size: bold;
+      text-align: center;
+      width: 10rem;
+      position: absolute;
+      right: 0rem;
+      top: 7rem;
+      height: 10rem;
+      font-weight: bold;
+      font-size: 2rem;
+    }
+    #scoreboardinside {
+      font-size: 4rem;
+    }
+    #difficulty {
+      display: flex;
+      position: absolute;
+      right: 15rem;
+      bottom: 1rem;
+      width: 30rem;
+      justify-content: space-between;
+    }
+    button {
+      font-size: 2rem;
+      border: none;
+      border-radius: 10px;
+      padding-left: 2rem;
+      padding-right: 2rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+    button:hover {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="court">
+    <div id="description">Help Lagrange James shoot into the correct basket to score points! Press the space bar to shoot</div>
+    <img id="seriesimage">
+    <div id="scoreboardoutside">
+      Score
+      <div id="scoreboardinside">0</div>
+    </div>
+    <audio id="lebronaudio" src="lebron.mp3"></audio>
+    <div id="difficulty">
+      <button style="background: green">Easy</button>
+      <button style="background: yellow">Medium</button>
+      <button style="background: red">Hard</button>
+    </div>
+    <img id="lebron" src="https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png" alt="LeBron" />
+    <img id="hoop1" src="./convergehoop.png" alt="Hoop" />
+    <img id="hoop2" src="./divergehoop.png" alt="Hoop" />
+    <img id="ball" src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Basketball.png" alt="Basketball" />
+
+    <!-- Red bar and green zones -->
+    <div id="target-bar"></div>
+    <div id="green1" class="green-zone"></div>
+    <div id="green2" class="green-zone"></div>
+    <div id="slider"></div>
+  </div>
+
+  <script>
+    const ball = document.getElementById("ball");
+    const slider = document.getElementById("slider");
+    const seriesimage = document.getElementById('seriesimage');
+    const scoreboardinside = document.getElementById('scoreboardinside');
+    const lebronimg = document.getElementById('lebron');
+
+    let convergestate = "";
+
+    document.querySelectorAll('button').forEach(button => {
+      button.onclick = () => {
+        if (button.textContent == "Easy") {
+          document.getElementById('slider').style.animation = "slide 2s linear infinite alternate";
+        } else if (button.textContent == "Medium") {
+          document.getElementById('slider').style.animation = "slide 1s linear infinite alternate";
+        } else {
+          document.getElementById('slider').style.animation = "slide 0.5s linear infinite alternate";
+        }
+      }
+    })
+
+
+    function generateseriesimage() {
+      const randomnum = Math.round(Math.random());
+      console.log(randomnum);
+      if (randomnum == 0) {
+        //converge
+        convergestate = "converge";
+        let num = Math.floor(Math.random() * 10) + 1;
+        seriesimage.src = `./converge${num}.png`;
+      } else {
+        //diverge
+        convergestate = "diverge";
+        let num = Math.floor(Math.random() * 10) + 1;
+        seriesimage.src = `./diverge${num}.png`;
+      }
+    }
+    generateseriesimage();
+
+    // Log slider position in rem when spacebar is pressed
+    document.addEventListener("keydown", (event) => {
+      if (event.code === "Space") {
+        event.preventDefault(); // prevent page scroll
+        const sliderLeftPx = slider.getBoundingClientRect().left;
+        const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+        const sliderRem = sliderLeftPx / rootFontSize;
+        console.log(`Slider is at ${sliderRem.toFixed(2)} rem`);
+document.getElementById('lebronaudio').play();
+        if (sliderRem.toFixed(2) > 36 && sliderRem.toFixed(2) < 53) {
+          if (convergestate == "diverge") {
+            let score = scoreboardinside.textContent;
+            score = score - -1;
+            scoreboardinside.textContent = score;
+            let div = document.createElement('div');
+            div.textContent = ":)";
+            div.classList.add('airball');
+            lebronimg.src = "./lecelebrate.png";
+            document.body.append(div);
+            setTimeout(() => {
+              div.remove();
+              lebronimg.src = "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png";
+            }, 1200);
+            generateseriesimage();
+          } else {
+            let div = document.createElement('div');
+            div.textContent = ":(";
+            div.classList.add('airball');
+            document.body.append(div);
+            lebronimg.src = "./ledisappointment.png";
+            setTimeout(() => {
+              div.remove();
+              lebronimg.src = "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png";
+            }, 1200);
+          }
+          // ball.style.classList.add('shootleft');
+
+          ball.style.display = "block";
+          // ball.classList.remove("shootleft");
+          void ball.offsetWidth; // force reflow
+          ball.classList.add("shootleft");
+
+          // Hide ball after animation completes
+          setTimeout(() => {
+            ball.style.display = "none";
+            ball.classList.remove("shootleft");
+          }, 1200);
+          
+        } else if (sliderRem.toFixed(2) > 57 && sliderRem.toFixed(2) < 69) {
+          if (convergestate == "converge") {
+            let score = scoreboardinside.textContent;
+            score = score - -1;
+            scoreboardinside.textContent = score;
+            let div = document.createElement('div');
+            div.textContent = ":)";
+            div.classList.add('airball');
+            lebronimg.src = "./lecelebrate.png";
+            document.body.append(div);
+            setTimeout(() => {
+              div.remove();
+              lebronimg.src = "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png";
+            }, 1200);
+            generateseriesimage();
+          } else {
+            let div = document.createElement('div');
+            div.textContent = ":(";
+            div.classList.add('airball');
+            lebronimg.src = "./ledisappointment.png";
+            document.body.append(div);
+            setTimeout(() => {
+              div.remove();
+              lebronimg.src = "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png";
+            }, 1200);
+          }
+
+          // ball.style.classList.add('shootright');
+
+            ball.style.display = "block";
+            void ball.offsetWidth; // force reflow
+            ball.classList.add("shootright");
+
+          // Hide ball after animation completes
+          setTimeout(() => {
+            ball.style.display = "none";
+            ball.classList.remove("shootright");
+          }, 1200);
+        } else {
+          let div = document.createElement('div');
+          div.textContent = "AIRBALL!";
+          div.classList.add('airball');
+          document.body.append(div);
+            lebronimg.src = "https://media.tenor.com/_SzM7v8Fnc4AAAAM/lebron-james-shocked-face.gif";
+          ball.style.display = "block";
+          void ball.offsetWidth;
+          if (sliderRem.toFixed(2) < 53) {
+            ball.animate([
+              {transform: 'translate(0rem, 0rem)'},
+              {transform: `translate(${sliderRem.toFixed(2) -10}rem, -50rem)`},
+              {transform: `translate(${sliderRem.toFixed(2) -2}rem, 0rem)`},
+            ], {
+              duration: 1200,
+            })
+          } else {
+            ball.animate([
+              {transform: 'translate(0rem, 0rem)'},
+              {transform: `translate(${sliderRem.toFixed(2) -30}rem, -50rem)`},
+              {transform: `translate(${sliderRem.toFixed(2) -2}rem, 0rem)`},
+            ], {
+              duration: 1200,
+            })
+          }
+          setTimeout(() => {
+            ball.style.display = "none";
+            div.remove();
+            lebronimg.src = "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png";
+          }, 1200);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
