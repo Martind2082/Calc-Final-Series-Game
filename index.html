@@ -273,7 +273,6 @@
 
     function generateseriesimage() {
       const randomnum = Math.round(Math.random());
-      console.log(randomnum);
       if (randomnum == 0) {
         //converge
         convergestate = "converge";
@@ -295,7 +294,7 @@
         const sliderLeftPx = slider.getBoundingClientRect().left;
         const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
         const sliderRem = sliderLeftPx / rootFontSize;
-        console.log(`Slider is at ${sliderRem.toFixed(2)} rem`);
+        // console.log(`Slider is at ${sliderRem.toFixed(2)} rem`);
         document.getElementById('lebronaudio').play();
         if (sliderRem.toFixed(2) > 36 && sliderRem.toFixed(2) < 50) {
           if (convergestate == "diverge") {
