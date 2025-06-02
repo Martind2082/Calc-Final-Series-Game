@@ -205,6 +205,9 @@
       font-size: 2rem;
       padding-top: 2rem;
     }
+    #lebron:hover {
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -216,6 +219,8 @@
       <div id="scoreboardinside">0</div>
     </div>
     <audio id="lebronaudio" src="lebron.mp3"></audio>
+    <audio id="lebronscreamaudio" src="lebronscream.mp3"></audio>
+    <audio id="sunshineaudio" src="sunshine.mp3"></audio>
     <div id="difficulty">
       <button style="background: green">Easy</button>
       <button style="background: yellow">Medium</button>
@@ -287,6 +292,12 @@
     }
     generateseriesimage();
 
+
+    //plays you are my sunshine when lebron is clicked on
+    lebronimg.addEventListener('click', () => {
+      document.getElementById('sunshineaudio').play();
+    })
+
     // Log slider position in rem when spacebar is pressed
     document.addEventListener("keydown", (event) => {
       if (event.code === "Space") {
@@ -295,7 +306,6 @@
         const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
         const sliderRem = sliderLeftPx / rootFontSize;
         // console.log(`Slider is at ${sliderRem.toFixed(2)} rem`);
-        document.getElementById('lebronaudio').play();
         if (sliderRem.toFixed(2) > 36 && sliderRem.toFixed(2) < 50) {
           if (convergestate == "diverge") {
             let score = scoreboardinside.textContent;
@@ -305,6 +315,7 @@
             div.textContent = ":)";
             div.classList.add('airball');
             lebronimg.src = "./lecelebrate.png";
+            document.getElementById('lebronscreamaudio').play();
             document.body.append(div);
             setTimeout(() => {
               div.remove();
@@ -317,6 +328,7 @@
             div.classList.add('airball');
             document.body.append(div);
             lebronimg.src = "./ledisappointment.png";
+            document.getElementById('lebronaudio').play();
             setTimeout(() => {
               div.remove();
               lebronimg.src = "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png";
@@ -344,6 +356,7 @@
             div.textContent = ":)";
             div.classList.add('airball');
             lebronimg.src = "./lecelebrate.png";
+            document.getElementById('lebronscreamaudio').play();
             document.body.append(div);
             setTimeout(() => {
               div.remove();
@@ -355,6 +368,7 @@
             div.textContent = ":(";
             div.classList.add('airball');
             lebronimg.src = "./ledisappointment.png";
+            document.getElementById('lebronaudio').play();
             document.body.append(div);
             setTimeout(() => {
               div.remove();
@@ -377,6 +391,7 @@
           let div = document.createElement('div');
           div.textContent = "AIRBALL!";
           div.classList.add('airball');
+          document.getElementById('lebronaudio').play();
           document.body.append(div);
             lebronimg.src = "https://media.tenor.com/_SzM7v8Fnc4AAAAM/lebron-james-shocked-face.gif";
           ball.style.display = "block";
