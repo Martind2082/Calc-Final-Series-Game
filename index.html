@@ -143,7 +143,9 @@
     
     .airball {
       position: absolute;
-      font-size: 10rem;
+      font-size: 6rem;
+      text-align: center;
+      width: 100%;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
@@ -293,7 +295,7 @@
     generateseriesimage();
 
 
-    //plays you are my sunshine when lebron is clicked on
+    //plays you are my c:\Users\marti\Downloads\lebron-forever-made-with-Voicemod.mp3 when lebron is clicked on
     lebronimg.addEventListener('click', () => {
       document.getElementById('sunshineaudio').play();
     })
@@ -312,7 +314,7 @@
             score = score - -1;
             scoreboardinside.textContent = score;
             let div = document.createElement('div');
-            div.textContent = ":)";
+            div.textContent = "LEGRAAANGE! :)";
             div.classList.add('airball');
             lebronimg.src = "./lecelebrate.png";
             document.getElementById('lebronscreamaudio').play();
@@ -324,7 +326,7 @@
             generateseriesimage();
           } else {
             let div = document.createElement('div');
-            div.textContent = ":(";
+            div.textContent = "Try again :(";
             div.classList.add('airball');
             document.body.append(div);
             lebronimg.src = "./ledisappointment.png";
@@ -353,7 +355,7 @@
             score = score - -1;
             scoreboardinside.textContent = score;
             let div = document.createElement('div');
-            div.textContent = ":)";
+            div.textContent = "LEGRAAANGE! :)";
             div.classList.add('airball');
             lebronimg.src = "./lecelebrate.png";
             document.getElementById('lebronscreamaudio').play();
@@ -365,7 +367,7 @@
             generateseriesimage();
           } else {
             let div = document.createElement('div');
-            div.textContent = ":(";
+            div.textContent = "Try again :(";
             div.classList.add('airball');
             lebronimg.src = "./ledisappointment.png";
             document.getElementById('lebronaudio').play();
