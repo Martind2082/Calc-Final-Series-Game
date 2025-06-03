@@ -66,26 +66,32 @@
       animation: shootright 1s linear;
     }
      @keyframes shootleft {
-      0% {
-        transform: translate(0rem, 0rem);
-      }
-      75% {
-        transform: translate(30rem, -50rem);
-      }
-      100% {
-        transform: translate(40rem, -25rem);
-      }
+       0% {
+        left: 0rem;
+        top: 99vh;
+       }
+       75% {
+        left: 30rem;
+        top: -5rem;
+       }
+       100% {
+        left: 40rem;
+        top: 15rem;
+       }
     }
 
      @keyframes shootright {
       0% {
-        transform: translate(0rem, 0rem);
+        left: 0rem;
+        top: 99vh;
       }
       75% {
-        transform: translate(40rem, -50rem)
+        left: 40rem;
+        top: -10rem;
       }
       100% {
-        transform: translate(61rem, -25rem)
+        left: 60rem;
+        top: 15rem;
       }
     }
 
@@ -409,7 +415,7 @@
           } else {
             ball.animate([
               {transform: 'translate(0rem, 0rem)'},
-              {transform: `translate(${sliderRem.toFixed(2) -30}rem, -50rem)`},
+              {transform: `translate(${sliderRem.toFixed(2) -30}rem, -70rem)`},
               {transform: `translate(${sliderRem.toFixed(2) -2}rem, 0rem)`},
             ], {
               duration: 1200,
