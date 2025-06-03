@@ -314,19 +314,22 @@
         const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
         const sliderRem = sliderLeftPx / rootFontSize;
         // console.log(`Slider is at ${sliderRem.toFixed(2)} rem`);
+        document.getElementById('lebronaudio').play();
         if (sliderRem.toFixed(2) > 36 && sliderRem.toFixed(2) < 50) {
           if (convergestate == "diverge") {
             let score = scoreboardinside.textContent;
             score = score - -1;
             scoreboardinside.textContent = score;
             let div = document.createElement('div');
-            div.textContent = "LEGRAAANGE! :)";
+            div.textContent = ":)";
             div.classList.add('airball');
             lebronimg.src = "./lecelebrate.png";
-            document.getElementById('lebronscreamaudio').play();
+            lebronimg.style.width = "35rem";
+            // document.getElementById('lebronscreamaudio').play();
             document.body.append(div);
             setTimeout(() => {
               div.remove();
+            lebronimg.style.width = "15rem";
               lebronimg.src = "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png";
             }, 1200);
             generateseriesimage();
@@ -336,9 +339,11 @@
             div.classList.add('airball');
             document.body.append(div);
             lebronimg.src = "./ledisappointment.png";
-            document.getElementById('lebronaudio').play();
+            lebronimg.style.width = "35rem";
+            // document.getElementById('lebronaudio').play();
             setTimeout(() => {
               div.remove();
+            lebronimg.style.width = "15rem";
               lebronimg.src = "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png";
             }, 1200);
           }
@@ -361,13 +366,15 @@
             score = score - -1;
             scoreboardinside.textContent = score;
             let div = document.createElement('div');
-            div.textContent = "LEGRAAANGE! :)";
+            div.textContent = ":)";
             div.classList.add('airball');
             lebronimg.src = "./lecelebrate.png";
-            document.getElementById('lebronscreamaudio').play();
+            lebronimg.style.width = "35rem";
+            // document.getElementById('lebronscreamaudio').play();
             document.body.append(div);
             setTimeout(() => {
               div.remove();
+            lebronimg.style.width = "15rem";
               lebronimg.src = "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png";
             }, 1200);
             generateseriesimage();
@@ -376,10 +383,12 @@
             div.textContent = "Try again :(";
             div.classList.add('airball');
             lebronimg.src = "./ledisappointment.png";
-            document.getElementById('lebronaudio').play();
+            lebronimg.style.width = "35rem";
+            // document.getElementById('lebronaudio').play();
             document.body.append(div);
             setTimeout(() => {
               div.remove();
+            lebronimg.style.width = "15rem";
               lebronimg.src = "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png";
             }, 1200);
           }
@@ -399,7 +408,7 @@
           let div = document.createElement('div');
           div.textContent = "AIRBALL!";
           div.classList.add('airball');
-          document.getElementById('lebronaudio').play();
+          // document.getElementById('lebronaudio').play();
           document.body.append(div);
             lebronimg.src = "https://media.tenor.com/_SzM7v8Fnc4AAAAM/lebron-james-shocked-face.gif";
           ball.style.display = "block";
